@@ -1,3 +1,9 @@
+:root {
+  --app-gutter: 18px;
+  --ui-offset-x: 0px;
+  --ui-offset-y: 0px;
+}
+
 .material-symbols-outlined {
   font-family: 'Material Symbols Outlined';
   font-weight: normal;
@@ -15,6 +21,36 @@
   -webkit-font-smoothing: antialiased;
 }
 
+html,
+body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  margin: 0;
+  box-sizing: border-box;
+  padding: var(--app-gutter);
+  position: relative;
+}
+
+#app-viewport {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+main {
+  box-sizing: border-box;
+  width: 1092px;
+  max-width: none !important;
+  position: absolute;
+  left: var(--ui-offset-x);
+  top: var(--ui-offset-y);
+}
+
 #dropzone.dragover {
   border-color: rgb(0 88 190 / 0.6);
   background-color: rgb(237 238 239 / 1);
@@ -22,4 +58,23 @@
 
 #log-container .log-line {
   word-break: break-all;
+}
+
+#log-container {
+  height: 7rem !important;
+}
+
+.step-badge {
+  width: 1.5rem;
+  height: 1.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background: rgb(237 238 239 / 0.7);
+  color: rgb(66 71 84 / 0.7);
+  border: 1px solid rgb(194 198 214 / 0.45);
+  font-family: Manrope, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 500;
 }

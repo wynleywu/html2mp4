@@ -64,6 +64,30 @@ let isRunning = false
 let elapsedTimer = null
 let jobStartedAt = 0
 let lastTotalFrames = 0
+let viewportScaleTimer = null
+
+function resolveFileAbsolutePath(file) {
+  if (!file || typeof file !== 'object') return ''
+  const maybePath = typeof file.path === 'string' ? file.path.trim() : ''
+  return maybePath
+}
+
+function syncSelectedFile(file, labelPrefix) {
+  if (!file) {
+    droppedFileName = ''
+    els.droppedName.textContent = ''
+    return
+  }
+  droppedFileName = file.name
+  els.droppedName.textContent = `${labelPrefix}: ${file.name}`
+  const absolutePath = resolveFileAbsolutePath(file)
+  if (absolutePath) {
+    els.sourcePath.value = absolutePath
+    appendLog('info', `[INFO] 已自动填写源路径: ${absolutePath}`)
+  } else if (!String(els.sourcePath.value).trim()) {
+    appendLog('warn', '[WARN] 当前环境无法读取文件绝对路径，请手填路径或使用「本机选择…」。')
+  }
+}
 
 function wsUrl() {
   return `ws://127.0.0.1:${ENGINE_WS_PORT}`
@@ -266,6 +290,32 @@ function finishJob() {
   resetProgressUI()
 }
 
+function fitUiToViewport() {
+  const root = document.documentElement
+  const main = document.querySelector('main')
+  const viewport = $('app-viewport')
+  if (!main || !viewport) return
+
+  root.style.setProperty('--ui-offset-x', '0px')
+  root.style.setProperty('--ui-offset-y', '0px')
+
+  const availableWidth = viewport.clientWidth
+  const contentWidth = main.scrollWidth
+
+  const offsetX = Math.max(0, (availableWidth - contentWidth) / 2)
+  const offsetY = 0
+
+  root.style.setProperty('--ui-offset-x', `${offsetX.toFixed(2)}px`)
+  root.style.setProperty('--ui-offset-y', `${offsetY.toFixed(2)}px`)
+}
+
+function scheduleFitUiToViewport() {
+  if (viewportScaleTimer != null) window.clearTimeout(viewportScaleTimer)
+  viewportScaleTimer = window.setTimeout(() => {
+    fitUiToViewport()
+  }, 60)
+}
+
 function connectWs() {
   return new Promise((resolve, reject) => {
     if (ws && ws.readyState === WebSocket.OPEN) {
@@ -374,8 +424,7 @@ els.dropzone.addEventListener('click', () => {
 })
 els.fileInput.addEventListener('change', () => {
   const f = els.fileInput.files?.[0]
-  droppedFileName = f ? f.name : ''
-  els.droppedName.textContent = f ? `已选文件（仅本地名）: ${f.name}` : ''
+  syncSelectedFile(f, '已选文件')
 })
 
 ;['dragenter', 'dragover'].forEach((ev) => {
@@ -396,8 +445,7 @@ els.dropzone.addEventListener('drop', (e) => {
   if (els.fileInput.disabled) return
   const f = e.dataTransfer?.files?.[0]
   if (f && /\.html?$/i.test(f.name)) {
-    droppedFileName = f.name
-    els.droppedName.textContent = `已拖入（仅本地名）: ${f.name}`
+    syncSelectedFile(f, '已拖入')
     try {
       const dt = new DataTransfer()
       dt.items.add(f)
@@ -443,7 +491,24 @@ els.btnClearLog.addEventListener('click', () => {
 })
 
 els.btnOutputHint.addEventListener('click', () => {
-  appendLog('info', '[INFO] 输出目录由本地引擎解析（如 ~/ 展开）；浏览器无法直接选择磁盘路径。')
+  const api = globalThis.nativeFileDialog
+  if (!api?.pickOutputDir) {
+    appendLog(
+      'warn',
+      '[WARN] 目录选择仅在 Electron 中可用：在项目根执行 npm run desktop:dev，并在打开的窗口中点击该按钮。',
+    )
+    return
+  }
+  api
+    .pickOutputDir()
+    .then((dir) => {
+      if (!dir) return
+      els.outputDir.value = dir
+      appendLog('info', `[INFO] 输出目录: ${dir}`)
+    })
+    .catch((e) => {
+      appendLog('error', `[ERROR] 选择输出目录失败: ${e?.message ?? e}`)
+    })
 })
 
 clearLog()
@@ -451,3 +516,9 @@ appendLog(
   'info',
   '[INFO] 页面就绪。点击 Start Recording 连接 ws://127.0.0.1:8765；需系统选文件时请 npm run desktop:dev。可导出任务 JSON。',
 )
+
+window.addEventListener('resize', scheduleFitUiToViewport)
+if (document.fonts?.ready) {
+  document.fonts.ready.then(() => scheduleFitUiToViewport())
+}
+window.setTimeout(() => scheduleFitUiToViewport(), 0)

@@ -80,16 +80,13 @@ tailwind.config = {
 </script>
 </head>
 <body class="bg-surface text-on-surface font-body antialiased min-h-screen flex flex-col">
-<main class="flex-grow pt-6 md:pt-8 pb-16 px-4 md:px-8 max-w-[1200px] w-full mx-auto flex flex-col gap-12">
-<div class="flex flex-col gap-2">
-<h1 class="font-headline text-3xl font-bold tracking-tight text-on-surface">html2mp4</h1>
-<p class="text-on-surface-variant text-sm">配置并将 HTML 动画交给<strong class="font-medium text-on-surface">本地引擎</strong>渲染为视频（浏览器仅控制台）。</p>
-</div>
+<div id="app-viewport">
+<main class="flex-grow pt-1 md:pt-2 pb-16 px-4 md:px-8 max-w-[1200px] w-full mx-auto flex flex-col gap-6">
 
 <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
 <!-- Step 1 -->
 <div id="section-source" class="scroll-mt-40 bg-surface-container-lowest rounded-xl p-6 flex flex-col gap-6 relative shadow-[0_12px_32px_-4px_rgba(0,0,0,0.04)]">
-<div class="absolute -top-3 -left-3 w-8 h-8 rounded-full bg-surface-container-low flex items-center justify-center font-headline font-bold text-sm text-on-surface border border-outline-variant/20 z-10">1</div>
+<div class="step-badge absolute top-3 right-3 z-10">1</div>
 <div class="flex items-center gap-3">
 <span class="material-symbols-outlined text-primary">html</span>
 <h2 class="font-headline text-lg font-bold text-on-surface tracking-tight">输入源</h2>
@@ -100,7 +97,7 @@ tailwind.config = {
 <span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors text-3xl">upload_file</span>
 <div class="flex flex-col gap-1">
 <span class="font-medium text-sm text-on-surface">点击选择或拖入 HTML 文件</span>
-<span class="text-xs text-on-surface-variant">浏览器内选文件无磁盘路径；请手填路径或使用<strong>本机选择</strong>（<code class="font-mono text-[11px]">npm run desktop:dev</code>）。</span>
+<span class="text-xs text-on-surface-variant">支持路径输入与拖拽/选择文件。若未自动回填路径，请手动填写或点<strong>本机选择</strong>。</span>
 </div>
 </div>
 <p id="dropped-name" class="text-xs font-mono text-on-surface-variant min-h-[1rem]"></p>
@@ -121,7 +118,7 @@ tailwind.config = {
 
 <!-- Step 2 -->
 <div id="section-config" class="scroll-mt-40 bg-surface-container-lowest rounded-xl p-6 flex flex-col gap-6 relative shadow-[0_12px_32px_-4px_rgba(0,0,0,0.04)]">
-<div class="absolute -top-3 -left-3 w-8 h-8 rounded-full bg-surface-container-low flex items-center justify-center font-headline font-bold text-sm text-on-surface border border-outline-variant/20 z-10">2</div>
+<div class="step-badge absolute top-3 right-3 z-10">2</div>
 <div class="flex items-center gap-3">
 <span class="material-symbols-outlined text-primary">settings_applications</span>
 <h2 class="font-headline text-lg font-bold text-on-surface tracking-tight">视频参数</h2>
@@ -140,11 +137,11 @@ tailwind.config = {
 <div class="grid grid-cols-2 gap-4">
 <div class="flex flex-col gap-1.5">
 <label class="text-xs font-medium text-on-surface-variant" for="fps">FPS</label>
-<input id="fps" class="w-full bg-surface-container-highest border-none rounded-sm px-3 py-2 text-sm font-mono text-on-surface focus:ring-2 focus:ring-primary focus:outline-none" type="number" value="60" min="1" max="120"/>
+<input id="fps" class="w-full bg-surface-container-highest border-none rounded-sm px-3 py-2 text-sm font-mono text-on-surface focus:ring-2 focus:ring-primary focus:outline-none" type="number" value="30" min="1" max="120"/>
 </div>
 <div class="flex flex-col gap-1.5">
 <label class="text-xs font-medium text-on-surface-variant" for="duration">时长 (s)</label>
-<input id="duration" class="w-full bg-surface-container-highest border-none rounded-sm px-3 py-2 text-sm font-mono text-on-surface focus:ring-2 focus:ring-primary focus:outline-none" type="number" value="10" min="0.1" max="3600" step="0.1"/>
+<input id="duration" class="w-full bg-surface-container-highest border-none rounded-sm px-3 py-2 text-sm font-mono text-on-surface focus:ring-2 focus:ring-primary focus:outline-none" type="number" value="5" min="0.1" max="3600" step="0.1"/>
 </div>
 </div>
 <div class="flex flex-col gap-4">
@@ -176,7 +173,7 @@ tailwind.config = {
 
 <!-- Step 3 -->
 <div id="section-output" class="scroll-mt-40 bg-surface-container-lowest rounded-xl p-6 flex flex-col gap-6 relative shadow-[0_12px_32px_-4px_rgba(0,0,0,0.04)] h-full justify-between">
-<div class="absolute -top-3 -left-3 w-8 h-8 rounded-full bg-surface-container-low flex items-center justify-center font-headline font-bold text-sm text-on-surface border border-outline-variant/20 z-10">3</div>
+<div class="step-badge absolute top-3 right-3 z-10">3</div>
 <div class="flex flex-col gap-6">
 <div class="flex items-center gap-3">
 <span class="material-symbols-outlined text-primary">video_file</span>
@@ -187,7 +184,7 @@ tailwind.config = {
 <label class="text-xs font-medium text-on-surface-variant" for="output-dir">输出目录</label>
 <div class="flex gap-2">
 <input id="output-dir" class="flex-grow bg-surface-container-highest border-none rounded-sm px-3 py-2 text-sm font-mono text-on-surface focus:ring-2 focus:ring-primary focus:outline-none" type="text" value="~/Downloads/renders" autocomplete="off"/>
-<button type="button" id="btn-output-hint" class="bg-surface-container-high text-primary px-3 py-2 rounded-sm text-sm font-medium hover:bg-surface-variant transition-colors flex items-center gap-1 shrink-0" title="由本地引擎解析路径">
+<button type="button" id="btn-output-hint" class="bg-surface-container-high text-primary px-3 py-2 rounded-sm text-sm font-medium hover:bg-surface-variant transition-colors flex items-center gap-1 shrink-0" title="选择输出目录（需 Electron）">
 <span class="material-symbols-outlined text-sm">folder_open</span>
 </button>
 </div>
@@ -265,6 +262,7 @@ Start Recording
 </div>
 </div>
 </main>
+</div>
 <script type="module" src="./assets/js/main.js"></script>
 </body>
 </html>
