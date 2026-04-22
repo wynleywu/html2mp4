@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "target": "es2022",
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "allowJs": true,
+    "checkJs": false,
+    "noEmit": true,
+    "strict": false,
+    "skipLibCheck": true
+  },
+  "include": ["renderer/**/*.js", "engine/**/*.js", "vite.config.js", "eslint.config.js"],
+  "exclude": ["node_modules", "electron"]
+}

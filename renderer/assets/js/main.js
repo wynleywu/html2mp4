@@ -258,7 +258,7 @@ function handleEngineMessage(data) {
   }
 }
 
-function finishJob(fromError) {
+function finishJob() {
   isRunning = false
   stopElapsedLoop()
   setFormDisabled(false)
