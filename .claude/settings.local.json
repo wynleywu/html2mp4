@@ -1,0 +1,27 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install *)",
+      "Bash(npm run *)",
+      "Bash(npm uninstall *)",
+      "Bash(WIN_CSC_LINK=\"\" npm run package)",
+      "Bash(taskkill /F /IM \"HTML2MP4.exe\")",
+      "Bash(taskkill /F /IM \"electron.exe\")",
+      "Bash(Remove-Item -Recurse -Force \"D:/vibe coding/html2mp4/release\" -ErrorAction SilentlyContinue)",
+      "Bash(Write-Host \"done\")",
+      "Bash(taskkill //F //IM \"HTML2MP4.exe\")",
+      "Bash(taskkill //F //IM \"electron.exe\")",
+      "Bash(cmd //c \"taskkill /F /IM HTML2MP4.exe & taskkill /F /IM electron.exe & ping 127.0.0.1 -n 2 > nul & rmdir /S /Q \\\\\"D:\\\\vibe coding\\\\html2mp4\\\\release\\\\\"\")",
+      "Bash(echo \"exit: $?\")",
+      "PowerShell($locked = Get-ChildItem \"D:\\\\vibe coding\\\\html2mp4\\\\release\" -Recurse -ErrorAction SilentlyContinue | Where-Object { -not $_.PSIsContainer }; foreach \\($f in $locked\\) { try { [System.IO.File]::Delete\\($f.FullName\\) } catch { Write-Host \"Locked: $\\($f.FullName\\)\" } }; Remove-Item -Recurse -Force \"D:\\\\vibe coding\\\\html2mp4\\\\release\" -ErrorAction SilentlyContinue; Test-Path \"D:\\\\vibe coding\\\\html2mp4\\\\release\")",
+      "PowerShell(Rename-Item \"D:\\\\vibe coding\\\\html2mp4\\\\release\" \"D:\\\\vibe coding\\\\html2mp4\\\\release_old\" -ErrorAction SilentlyContinue)",
+      "Bash(CSC_IDENTITY_AUTO_DISCOVERY=false npm run package)",
+      "Bash(node -e ' *)",
+      "Bash(node scripts/pack.cjs)",
+      "Bash(gh auth *)",
+      "Bash(winget install *)",
+      "Bash(powershell *)",
+      "Bash(git remote *)"
+    ]
+  }
+}
