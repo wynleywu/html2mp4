@@ -1,0 +1,25 @@
+{
+  "name": "html2mp4",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "electron:dev": "electron electron/main.cjs",
+    "desktop:dev": "concurrently -k \"npm run dev\" \"wait-on http://127.0.0.1:4001 && electron electron/main.cjs\"",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run --passWithNoTests"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "concurrently": "^9.1.0",
+    "electron": "^33.2.1",
+    "eslint": "^10.2.1",
+    "globals": "^17.5.0",
+    "typescript": "^6.0.3",
+    "vite": "^5.4.0",
+    "vitest": "^4.1.4",
+    "wait-on": "^8.0.1"
+  }
+}
