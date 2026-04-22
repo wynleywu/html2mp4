@@ -3,6 +3,10 @@ const path = require('path')
 
 const DEV_URL = 'http://127.0.0.1:4001/'
 
+// Start the render engine WebSocket server in the main process.
+// All heavy work (offscreen BrowserWindow, FFmpeg) runs asynchronously.
+require('../engine/server.cjs')
+
 function createWindow() {
   const win = new BrowserWindow({
     width: 1280,
@@ -14,7 +18,11 @@ function createWindow() {
     },
   })
 
-  win.loadURL(DEV_URL)
+  if (app.isPackaged) {
+    win.loadFile(path.join(__dirname, '../renderer/index.html'))
+  } else {
+    win.loadURL(DEV_URL)
+  }
 }
 
 ipcMain.handle('pick-html-file', async (event) => {

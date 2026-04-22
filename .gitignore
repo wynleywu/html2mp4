@@ -1,5 +1,8 @@
 node_modules/
 dist/
+dist_app/
+release/
+release_old/
 .env
 .env.local
 .DS_Store
