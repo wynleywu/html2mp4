@@ -85,5 +85,4 @@ html2mp4/
 
 - [ ] 未内嵌自定义图标（当前为默认 Electron 图标）
 - [ ] precise 模式无法拦截页面内联 `<script>` 里的同步 rAF 调用（preload 在 DOM 解析前注入，但内联脚本同样在那时运行）
-- [ ] GitHub Release 尚未发布打包版本
 - [ ] DPR > 1 在 offscreen 渲染中实际效果与 puppeteer 不同（offscreen 以 CSS 像素 1:1 截图，DPR 参数目前无效）

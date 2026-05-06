@@ -121,5 +121,5 @@ html2mp4/
 
 - 仅支持 Windows x64（`@ffmpeg-installer/ffmpeg` 平台二进制）
 - DPR > 1 在 offscreen 渲染中实际无效，截图以 CSS 像素 1:1 输出
-- precise 模式无法拦截页面内联 `<script>` 里的同步 `requestAnimationFrame` 调用
+- precise 模式无法拦截页面内联 `<script>` 里的同步 `requestAnimationFrame` 调用（内联脚本在 DOM 解析前同时运行，preload 无法提前注入）
 - 应用图标为默认 Electron 图标，未内嵌自定义图标
