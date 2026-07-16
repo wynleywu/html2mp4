@@ -64,6 +64,13 @@ html2mp4/
 | `npm run typecheck` | TypeScript 类型检查 |
 | `npm run test` | Vitest（目前无测试文件） |
 
+## 本地预览（Orca 内置浏览器）
+
+- **仅 Vite UI**（`npm run dev`）：`orca tab create --url http://127.0.0.1:4010 --json`；已有 tab 用 `orca goto`
+- **完整录制 GUI**：`npm run desktop:dev`（Electron；不经 Orca 浏览器）
+- 任意本地 HTML 源预览：`orca tab create --url "file:///<绝对路径>" --json`（禁止 `start` / `explorer` 打开预览）
+- 仓库 Markdown：`orca file open --path README.md --json`
+
 ## 打包说明
 
 - 打包脚本：`scripts/pack.cjs`，直接用 Node.js 运行
