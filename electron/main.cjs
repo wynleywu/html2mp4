@@ -1,7 +1,8 @@
 const { app, BrowserWindow, ipcMain, dialog, Menu } = require('electron')
 const path = require('path')
 
-const DEV_URL = 'http://127.0.0.1:4001/'
+const DEV_PORT = Number(process.env.PORT || 4010)
+const DEV_URL = `http://127.0.0.1:${DEV_PORT}/`
 
 // Start the render engine WebSocket server in the main process.
 // All heavy work (offscreen BrowserWindow, FFmpeg) runs asynchronously.

@@ -23,6 +23,15 @@ npm run desktop:dev
 
 浏览器会自动打开 Electron 窗口，直接在 GUI 中操作。
 
+**端口（避免与 `tools-jinqing` 的 4001 冲突）：**
+
+| 服务 | 默认 | 覆盖 |
+|------|------|------|
+| Vite / Electron 页 | **4010** | `PORT` |
+| 录制引擎 WebSocket | **8765** | 改 `engine/server.cjs` 与 `renderer/assets/js/main.js` |
+
+仅网页：`npm run dev` → `http://127.0.0.1:4010`。worktree 并行时 `$env:PORT=4011; npm run dev`（`desktop:dev` 内 `wait-on` 仍默认 4010）。工作区总表见上级 `PORTS.md`。
+
 ---
 
 ## 使用方法
